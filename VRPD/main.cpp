@@ -7,9 +7,11 @@
 //
 
 #include <iostream>
+#include "VRPD.h"
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    const char *filename = "/Users/xiaoya/Documents/Google Drive/Spring 2015/BMGT831/VRPD/Instance/instance1.txt";
+    VRPD vrpd;
+    vrpd.readFile(filename);
     return 0;
 }

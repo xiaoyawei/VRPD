@@ -38,13 +38,8 @@
 		903F038A1AE88C91001DFF9F /* CrossExchange.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F036C1AE88C91001DFF9F /* CrossExchange.cpp */; };
 		903F038B1AE88C91001DFF9F /* Concatenate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F036D1AE88C91001DFF9F /* Concatenate.cpp */; };
 		903F038C1AE88C91001DFF9F /* ClarkeWright.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F036E1AE88C91001DFF9F /* ClarkeWright.cpp */; };
-		903F03B61AE88D99001DFF9F /* vrp_sa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03AF1AE88D99001DFF9F /* vrp_sa.cpp */; };
-		903F03B71AE88D99001DFF9F /* vrp_rtr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03B01AE88D99001DFF9F /* vrp_rtr.cpp */; };
-		903F03B81AE88D99001DFF9F /* vrp_plotter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03B11AE88D99001DFF9F /* vrp_plotter.cpp */; };
-		903F03B91AE88D99001DFF9F /* vrp_initial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03B21AE88D99001DFF9F /* vrp_initial.cpp */; };
-		903F03BA1AE88D99001DFF9F /* vrp_glpk_sp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03B31AE88D99001DFF9F /* vrp_glpk_sp.cpp */; };
-		903F03BB1AE88D99001DFF9F /* vrp_ej.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03B41AE88D99001DFF9F /* vrp_ej.cpp */; };
-		903F03BC1AE88D99001DFF9F /* SYMPHONY_vrp_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 903F03B51AE88D99001DFF9F /* SYMPHONY_vrp_main.c */; };
+		90806AF61AEDA140008D544A /* VRPD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90806AF41AEDA140008D544A /* VRPD.cpp */; };
+		90806AF91AEDCBDB008D544A /* Coordinate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90806AF71AEDCBDB008D544A /* Coordinate.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -123,13 +118,10 @@
 		903F03A91AE88CB1001DFF9F /* CrossExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrossExchange.h; path = "../VRPH-1.0.0/inc/CrossExchange.h"; sourceTree = "<group>"; };
 		903F03AA1AE88CB1001DFF9F /* Concatenate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Concatenate.h; path = "../VRPH-1.0.0/inc/Concatenate.h"; sourceTree = "<group>"; };
 		903F03AB1AE88CB1001DFF9F /* ClarkeWright.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClarkeWright.h; path = "../VRPH-1.0.0/inc/ClarkeWright.h"; sourceTree = "<group>"; };
-		903F03AF1AE88D99001DFF9F /* vrp_sa.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vrp_sa.cpp; path = "../VRPH-1.0.0/src/apps/vrp_sa.cpp"; sourceTree = "<group>"; };
-		903F03B01AE88D99001DFF9F /* vrp_rtr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vrp_rtr.cpp; path = "../VRPH-1.0.0/src/apps/vrp_rtr.cpp"; sourceTree = "<group>"; };
-		903F03B11AE88D99001DFF9F /* vrp_plotter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vrp_plotter.cpp; path = "../VRPH-1.0.0/src/apps/vrp_plotter.cpp"; sourceTree = "<group>"; };
-		903F03B21AE88D99001DFF9F /* vrp_initial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vrp_initial.cpp; path = "../VRPH-1.0.0/src/apps/vrp_initial.cpp"; sourceTree = "<group>"; };
-		903F03B31AE88D99001DFF9F /* vrp_glpk_sp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vrp_glpk_sp.cpp; path = "../VRPH-1.0.0/src/apps/vrp_glpk_sp.cpp"; sourceTree = "<group>"; };
-		903F03B41AE88D99001DFF9F /* vrp_ej.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vrp_ej.cpp; path = "../VRPH-1.0.0/src/apps/vrp_ej.cpp"; sourceTree = "<group>"; };
-		903F03B51AE88D99001DFF9F /* SYMPHONY_vrp_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SYMPHONY_vrp_main.c; path = "../VRPH-1.0.0/src/apps/SYMPHONY_vrp_main.c"; sourceTree = "<group>"; };
+		90806AF41AEDA140008D544A /* VRPD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VRPD.cpp; sourceTree = "<group>"; };
+		90806AF51AEDA140008D544A /* VRPD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRPD.h; sourceTree = "<group>"; };
+		90806AF71AEDCBDB008D544A /* Coordinate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Coordinate.cpp; sourceTree = "<group>"; };
+		90806AF81AEDCBDB008D544A /* Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +158,10 @@
 			isa = PBXGroup;
 			children = (
 				903F034A1AE88C66001DFF9F /* main.cpp */,
+				90806AF41AEDA140008D544A /* VRPD.cpp */,
+				90806AF51AEDA140008D544A /* VRPD.h */,
+				90806AF71AEDCBDB008D544A /* Coordinate.cpp */,
+				90806AF81AEDCBDB008D544A /* Coordinate.h */,
 			);
 			path = VRPD;
 			sourceTree = "<group>";
@@ -248,13 +244,6 @@
 		903F03AE1AE88D68001DFF9F /* VRPH_App */ = {
 			isa = PBXGroup;
 			children = (
-				903F03AF1AE88D99001DFF9F /* vrp_sa.cpp */,
-				903F03B01AE88D99001DFF9F /* vrp_rtr.cpp */,
-				903F03B11AE88D99001DFF9F /* vrp_plotter.cpp */,
-				903F03B21AE88D99001DFF9F /* vrp_initial.cpp */,
-				903F03B31AE88D99001DFF9F /* vrp_glpk_sp.cpp */,
-				903F03B41AE88D99001DFF9F /* vrp_ej.cpp */,
-				903F03B51AE88D99001DFF9F /* SYMPHONY_vrp_main.c */,
 			);
 			name = VRPH_App;
 			sourceTree = "<group>";
@@ -319,18 +308,14 @@
 				903F03781AE88C91001DFF9F /* VRPGraphics.cpp in Sources */,
 				903F03811AE88C91001DFF9F /* SwapEnds.cpp in Sources */,
 				903F038C1AE88C91001DFF9F /* ClarkeWright.cpp in Sources */,
-				903F03B91AE88D99001DFF9F /* vrp_initial.cpp in Sources */,
 				903F03711AE88C91001DFF9F /* VRPTabuList.cpp in Sources */,
 				903F03701AE88C91001DFF9F /* VRPTSPLib.cpp in Sources */,
-				903F03B61AE88D99001DFF9F /* vrp_sa.cpp in Sources */,
 				903F037E1AE88C91001DFF9F /* ThreePointMove.cpp in Sources */,
 				903F03771AE88C91001DFF9F /* VRPIO.cpp in Sources */,
 				903F037A1AE88C91001DFF9F /* VRPDebug.cpp in Sources */,
-				903F03BA1AE88D99001DFF9F /* vrp_glpk_sp.cpp in Sources */,
 				903F03761AE88C91001DFF9F /* VRPMove.cpp in Sources */,
 				903F03851AE88C91001DFF9F /* Postsert.cpp in Sources */,
 				903F03861AE88C91001DFF9F /* OrOpt.cpp in Sources */,
-				903F03B81AE88D99001DFF9F /* vrp_plotter.cpp in Sources */,
 				903F03821AE88C91001DFF9F /* Swap.cpp in Sources */,
 				903F037B1AE88C91001DFF9F /* VRP.cpp in Sources */,
 				903F038B1AE88C91001DFF9F /* Concatenate.cpp in Sources */,
@@ -338,18 +323,17 @@
 				903F037F1AE88C91001DFF9F /* ThreeOpt.cpp in Sources */,
 				903F03751AE88C91001DFF9F /* VRPNode.cpp in Sources */,
 				903F036F1AE88C91001DFF9F /* VRPUtils.cpp in Sources */,
+				90806AF91AEDCBDB008D544A /* Coordinate.cpp in Sources */,
 				903F03721AE88C91001DFF9F /* VRPSolvers.cpp in Sources */,
 				903F03801AE88C91001DFF9F /* Sweep.cpp in Sources */,
+				90806AF61AEDA140008D544A /* VRPD.cpp in Sources */,
 				903F03791AE88C91001DFF9F /* VRPGenerator.cpp in Sources */,
 				903F03741AE88C91001DFF9F /* VRPRoute.cpp in Sources */,
 				903F03881AE88C91001DFF9F /* MoveString.cpp in Sources */,
 				903F03831AE88C91001DFF9F /* RNG.cpp in Sources */,
-				903F03B71AE88D99001DFF9F /* vrp_rtr.cpp in Sources */,
 				903F038A1AE88C91001DFF9F /* CrossExchange.cpp in Sources */,
 				903F03871AE88C91001DFF9F /* OnePointMove.cpp in Sources */,
-				903F03BB1AE88D99001DFF9F /* vrp_ej.cpp in Sources */,
 				903F03891AE88C91001DFF9F /* Flip.cpp in Sources */,
-				903F03BC1AE88D99001DFF9F /* SYMPHONY_vrp_main.c in Sources */,
 				903F034B1AE88C66001DFF9F /* main.cpp in Sources */,
 				903F03841AE88C91001DFF9F /* Presert.cpp in Sources */,
 				903F03731AE88C91001DFF9F /* VRPSolution.cpp in Sources */,
@@ -469,6 +453,7 @@
 				903F03501AE88C66001DFF9F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
