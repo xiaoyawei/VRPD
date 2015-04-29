@@ -40,6 +40,8 @@
 		903F038C1AE88C91001DFF9F /* ClarkeWright.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F036E1AE88C91001DFF9F /* ClarkeWright.cpp */; };
 		90806AF61AEDA140008D544A /* VRPD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90806AF41AEDA140008D544A /* VRPD.cpp */; };
 		90806AF91AEDCBDB008D544A /* Coordinate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90806AF71AEDCBDB008D544A /* Coordinate.cpp */; };
+		90806AFC1AF04D09008D544A /* Solver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90806AFA1AF04D09008D544A /* Solver.cpp */; };
+		90806B001AF05743008D544A /* ModifiedVRPH.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90806AFF1AF05743008D544A /* ModifiedVRPH.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -118,10 +120,13 @@
 		903F03A91AE88CB1001DFF9F /* CrossExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CrossExchange.h; path = "../VRPH-1.0.0/inc/CrossExchange.h"; sourceTree = "<group>"; };
 		903F03AA1AE88CB1001DFF9F /* Concatenate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Concatenate.h; path = "../VRPH-1.0.0/inc/Concatenate.h"; sourceTree = "<group>"; };
 		903F03AB1AE88CB1001DFF9F /* ClarkeWright.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ClarkeWright.h; path = "../VRPH-1.0.0/inc/ClarkeWright.h"; sourceTree = "<group>"; };
-		90806AF41AEDA140008D544A /* VRPD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VRPD.cpp; sourceTree = "<group>"; };
-		90806AF51AEDA140008D544A /* VRPD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VRPD.h; sourceTree = "<group>"; };
-		90806AF71AEDCBDB008D544A /* Coordinate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Coordinate.cpp; sourceTree = "<group>"; };
-		90806AF81AEDCBDB008D544A /* Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coordinate.h; sourceTree = "<group>"; };
+		90806AF41AEDA140008D544A /* VRPD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VRPD.cpp; path = VRPD/VRPD.cpp; sourceTree = "<group>"; };
+		90806AF51AEDA140008D544A /* VRPD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VRPD.h; path = VRPD/VRPD.h; sourceTree = "<group>"; };
+		90806AF71AEDCBDB008D544A /* Coordinate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Coordinate.cpp; path = VRPD/Coordinate.cpp; sourceTree = "<group>"; };
+		90806AF81AEDCBDB008D544A /* Coordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Coordinate.h; path = VRPD/Coordinate.h; sourceTree = "<group>"; };
+		90806AFA1AF04D09008D544A /* Solver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Solver.cpp; path = VRPD/Solver.cpp; sourceTree = "<group>"; };
+		90806AFB1AF04D09008D544A /* Solver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Solver.h; path = VRPD/Solver.h; sourceTree = "<group>"; };
+		90806AFF1AF05743008D544A /* ModifiedVRPH.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ModifiedVRPH.cpp; path = VRPD/ModifiedVRPH.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +143,8 @@
 		903F033E1AE88C66001DFF9F = {
 			isa = PBXGroup;
 			children = (
+				90806AFE1AF04D9A008D544A /* VRPD_Source */,
+				90806AFD1AF04D56008D544A /* VRPD_Header */,
 				903F03AE1AE88D68001DFF9F /* VRPH_App */,
 				903F03AD1AE88D44001DFF9F /* VRPH_Header */,
 				903F03AC1AE88CCF001DFF9F /* VRPH_Source */,
@@ -158,10 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				903F034A1AE88C66001DFF9F /* main.cpp */,
-				90806AF41AEDA140008D544A /* VRPD.cpp */,
-				90806AF51AEDA140008D544A /* VRPD.h */,
-				90806AF71AEDCBDB008D544A /* Coordinate.cpp */,
-				90806AF81AEDCBDB008D544A /* Coordinate.h */,
 			);
 			path = VRPD;
 			sourceTree = "<group>";
@@ -248,6 +251,27 @@
 			name = VRPH_App;
 			sourceTree = "<group>";
 		};
+		90806AFD1AF04D56008D544A /* VRPD_Header */ = {
+			isa = PBXGroup;
+			children = (
+				90806AFB1AF04D09008D544A /* Solver.h */,
+				90806AF81AEDCBDB008D544A /* Coordinate.h */,
+				90806AF51AEDA140008D544A /* VRPD.h */,
+			);
+			name = VRPD_Header;
+			sourceTree = "<group>";
+		};
+		90806AFE1AF04D9A008D544A /* VRPD_Source */ = {
+			isa = PBXGroup;
+			children = (
+				90806AF41AEDA140008D544A /* VRPD.cpp */,
+				90806AFF1AF05743008D544A /* ModifiedVRPH.cpp */,
+				90806AFA1AF04D09008D544A /* Solver.cpp */,
+				90806AF71AEDCBDB008D544A /* Coordinate.cpp */,
+			);
+			name = VRPD_Source;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -327,6 +351,7 @@
 				903F03721AE88C91001DFF9F /* VRPSolvers.cpp in Sources */,
 				903F03801AE88C91001DFF9F /* Sweep.cpp in Sources */,
 				90806AF61AEDA140008D544A /* VRPD.cpp in Sources */,
+				90806B001AF05743008D544A /* ModifiedVRPH.cpp in Sources */,
 				903F03791AE88C91001DFF9F /* VRPGenerator.cpp in Sources */,
 				903F03741AE88C91001DFF9F /* VRPRoute.cpp in Sources */,
 				903F03881AE88C91001DFF9F /* MoveString.cpp in Sources */,
@@ -334,6 +359,7 @@
 				903F038A1AE88C91001DFF9F /* CrossExchange.cpp in Sources */,
 				903F03871AE88C91001DFF9F /* OnePointMove.cpp in Sources */,
 				903F03891AE88C91001DFF9F /* Flip.cpp in Sources */,
+				90806AFC1AF04D09008D544A /* Solver.cpp in Sources */,
 				903F034B1AE88C66001DFF9F /* main.cpp in Sources */,
 				903F03841AE88C91001DFF9F /* Presert.cpp in Sources */,
 				903F03731AE88C91001DFF9F /* VRPSolution.cpp in Sources */,

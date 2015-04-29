@@ -31,5 +31,12 @@ public:
     DroneDeployment(int s, int e, int r, int n, double a);
     DroneDeployment();
     void set(int s, int e, double a);
+    bool operator==(const DroneDeployment& d2) const;
+    bool operator<(const DroneDeployment& d2) const;
+    DroneDeployment& operator=(const DroneDeployment& rhs);
+    void reset();
+
+private:
+    const double beta = 0;
 };
 #endif /* defined(__VRPD__Coordinate__) */

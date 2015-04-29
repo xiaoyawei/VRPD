@@ -44,3 +44,36 @@ void DroneDeployment::set(int s, int e, double a){
     end = e;
     addedTime = a;
 }
+
+bool DroneDeployment::operator==(const DroneDeployment& d2) const{
+    return this->start == d2.start && this->end == d2.end && this->routeID == d2.routeID && this->nodeID == d2.nodeID;
+}
+
+bool DroneDeployment::operator<(const DroneDeployment& d2) const{
+    if (addedTime <= 0 && d2.addedTime > 0){
+        return true;
+    }else if (addedTime > 0 && d2.addedTime <= 0){
+        return false;
+    }else if (addedTime <= 0 && d2.addedTime <= 0){
+        if (end - start == d2.end - d2.start)
+            return addedTime < d2.addedTime;
+        else
+            return end - start < d2.end - d2.start;
+    }else{
+        return addedTime - beta * (end - start) < d2.addedTime - beta * (d2.end - d2.start);
+    }
+}
+
+DroneDeployment& DroneDeployment::operator=(const DroneDeployment& rhs){
+    start = rhs.start;
+    end = rhs.end;
+    routeID = rhs.routeID;
+    nodeID = rhs.nodeID;
+    addedTime = rhs.addedTime;
+    return *this;
+}
+
+void DroneDeployment::reset(){
+    start = end = routeID = nodeID = -1;
+    addedTime = 1e30;
+}
