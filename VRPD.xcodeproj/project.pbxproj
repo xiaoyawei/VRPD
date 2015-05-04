@@ -184,7 +184,8 @@
 			children = (
 				903F034A1AE88C66001DFF9F /* main.cpp */,
 			);
-			path = VRPD;
+			name = VRPD;
+			path = VRPD/source;
 			sourceTree = "<group>";
 		};
 		903F03AC1AE88CCF001DFF9F /* VRPH_Source */ = {
