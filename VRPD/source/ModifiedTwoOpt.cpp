@@ -446,9 +446,10 @@ bool TwoOpt::search(class VRP *V, int b, int rules)
         }
         else
         {
-            if(!(rules & VRPH_TABU))
+            if(!(rules & VRPH_TABU)){
                 V->updateCurrentObject(V->currentObject + BestM.savings);
                 return true;
+            }
             else
             {
                 // Check VRPH_TABU status of move - return true if its ok
