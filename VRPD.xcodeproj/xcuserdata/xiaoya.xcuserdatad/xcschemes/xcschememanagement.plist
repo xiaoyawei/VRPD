@@ -9,9 +9,19 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>VRPD_release.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>903A65BC1AF9BEFC005843F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>903F03461AE88C66001DFF9F</key>
 		<dict>
 			<key>primary</key>

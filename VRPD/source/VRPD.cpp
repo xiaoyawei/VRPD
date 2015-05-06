@@ -34,6 +34,7 @@ int VRPD::globalIndexToLocal(const int index) const {
 }
 
 void VRPD::setup(const Solver& solver){
+    reset();
     alpha = solver.alpha;
     cost = solver.cost;
     depotIndex = solver.depotIndex;
@@ -47,6 +48,7 @@ void VRPD::setup(const Solver& solver){
     tDrone = solver.tDrone;
     truckCap = solver.truckCap;
     getDroneAssignment(solver.droned);
+    nodes = solver.nodes;
     int count = 0;
     globalToLocal[0] = localToGlobal[0] = 0;
     for (int i = 0; i < solver.numCustomer; ++i) {
@@ -57,6 +59,12 @@ void VRPD::setup(const Solver& solver){
             ++count;
         }
     }
+    
+    solution = new int[numByTruck + 1];
+}
+
+void VRPD::reset(){
+//    delete [] solution;
 }
 
 VRPD::VRPD(const Solver& solver){
@@ -65,17 +73,10 @@ VRPD::VRPD(const Solver& solver){
     nextArray = new int[solver.numCustomer];
     preArray = new int[solver.numCustomer];
     setup(solver);
-    solution = new int[numByTruck + 1];
 }
 
 VRPD::~VRPD(){
     clearRouteInfo();
-    delete [] cost[0];
-    delete [] cost;
-    delete [] dist[0];
-    delete [] dist;
-    delete [] nodes;
-    delete [] droned;
     delete [] localToGlobal;
     delete [] globalToLocal;
     delete [] nextArray;
@@ -247,6 +248,11 @@ DroneDeployment VRPD::getDroneDeployment(const int dest, const int *route, const
 
 
 void VRPD::sendDrone(int *route, int *deployedDrone, double *waitingTime, const DroneDeployment& deply){
+    if (deply.start < 0 || deply.end < 0){
+        loadAtRoute[deply.routeID] = truckCap + 1;
+        timeOfRoute[deply.routeID] = INF;
+        return;
+    }
     for (int i = deply.start; i <= deply.end; ++i) { // need fine-granuity modification
         ++deployedDrone[i];
     }
@@ -260,6 +266,7 @@ void VRPD::sendDrone(int *route, int *deployedDrone, double *waitingTime, const 
     }
     droneDplyAtNode[deply.nodeID] = deply;
     droneDplyAtRoute[deply.routeID].push_back(deply);
+    ++loadAtRoute[deply.routeID];
 }
 
 void VRPD::withdrawDrone(int *route, int *deployedDrone, double *waitingTime, const DroneDeployment& deply){
@@ -281,6 +288,11 @@ void VRPD::withdrawDrone(int *route, int *deployedDrone, double *waitingTime, co
 }
 
 void VRPD::clearRouteInfo(){
+    if (routeInfoCreated) {
+        routeInfoCreated = false;
+    } else {
+        return;
+    }
     if (numOfRoute > 0) {
         for (int i = 0; i < numOfRoute; ++i) {
             delete [] waitingTime[i];
@@ -289,28 +301,39 @@ void VRPD::clearRouteInfo(){
         }
         delete [] timeOfRoute;
         delete [] lengthOfRoute;
-        delete [] droneDplyAtRoute;
         delete [] loadAtRoute;
+        delete [] waitingTime;
+        delete [] deployedDrone;
+        delete [] truckRoutes;
+        delete [] droneDplyAtRoute;
+        delete [] droneDplyAtNode;
         numOfRoute = 0;
     }
 }
 
 void VRPD::createRouteInfo(){
     
+    if (routeInfoCreated) {
+        return;
+    } else {
+        routeInfoCreated = true;
+    }
+    
     for (int i = 0; nextArray[i] != 0; i = abs(nextArray[i])) {
         if (nextArray[i] < 0) {
             ++numOfRoute;
         }
     }
+    droneDplyAtNode = new DroneDeployment[numCustomer];
+    droneDplyAtRoute = new std::vector<DroneDeployment>[numOfRoute];
     lengthOfRoute = new int[numOfRoute];
     waitingTime = new double*[numOfRoute];
     deployedDrone = new int*[numOfRoute];
     truckRoutes = new int*[numOfRoute];
     timeOfRoute = new double[numOfRoute];
     loadAtRoute = new int[numOfRoute];
-    droneDplyAtRoute = new std::vector<DroneDeployment>[numOfRoute];
     int routeIndex = 0;
-    for (int i = abs(nextArray[0]); nextArray[i] != 0;) {
+    for (int i = abs(nextArray[0]); i > 0;) {
         int load = 1, len = pathLength[0][i], j, pre = i;
         for (j = nextArray[i]; j > 0; j = nextArray[j]) {
             ++load;
@@ -364,12 +387,19 @@ void VRPD::assignInitialDrones(int method){
                 DroneDeployment minDply(-1, -1, 0, i, INF);
                 for (int j = 0; j < numOfRoute; ++j) {
                     DroneDeployment dply = getDroneDeployment(i, truckRoutes[j], deployedDrone[j], waitingTime[j], lengthOfRoute[j], j);
-                    if (dply.addedTime + timeOfRoute[j] < minDply.addedTime + timeOfRoute[minDply.routeID]) {
+                    if (hideNegative(dply.addedTime) + timeOfRoute[j] < hideNegative(minDply.addedTime) + timeOfRoute[minDply.routeID]) {
                         minDply = dply;
                     }
                 }
 //                droneDplyAtNode[i] = tmp;
 //                droneDplyAtRoute[minDply.routeID].push_back(minDply);
+                if (minDply.start < 0 || minDply.end < 0) {
+                    for (int j = 0; j < numOfRoute; ++j) {
+                        loadAtRoute[j] = truckCap + 1;
+                        timeOfRoute[j] = INF;
+                    }
+                    return;
+                }
                 sendDrone(truckRoutes[minDply.routeID], deployedDrone[minDply.routeID], waitingTime[minDply.routeID], minDply);
             }
         }
@@ -430,6 +460,7 @@ int* VRPD::generateInitialTruckRoute(){
         routes[i].push_back(0);
         routeLength[i] = routeLoad[i] = 0;
     }
+    index = 0;
     for (int i = 1; i < numCustomer; ++i) {
         if (!droned[i]) {
             int routeID = -1, insertID = -1;
@@ -439,7 +470,7 @@ int* VRPD::generateInitialTruckRoute(){
                     continue;
                 }
                 for (int k = 0; k < routes[j].size() - 1; ++k) {
-                    int a = routes[j][k], b = routes[j][k + 1], c = initialNodes[i].nodeID;
+                    int a = routes[j][k], b = routes[j][k + 1], c = initialNodes[index].nodeID;
                     double addedLength = this->cost[a][c] + this->cost[c][b] - this->cost[a][b];
                     if (addedLength + routeLength[j] < min) {
                         routeID = j;
@@ -448,9 +479,10 @@ int* VRPD::generateInitialTruckRoute(){
                     }
                 }
             }
-            routes[routeID].insert(routes[routeID].begin() + insertID, initialNodes[i].nodeID);
+            routes[routeID].insert(routes[routeID].begin() + insertID + 1, initialNodes[index].nodeID);
             routeLength[routeID] = min;
             ++routeLoad[routeID];
+            ++index;
         }
     }
     solution[0] = numByTruck - 1;
@@ -465,6 +497,7 @@ int* VRPD::generateInitialTruckRoute(){
         }
     }
     solution[++index] = 0;
+    isGlobalSolution = false;
     return solution;
 }
 
@@ -472,4 +505,28 @@ double VRPD::getDroneDeploymentsolution(const VRP& vrp){
     importTruckRoute(vrp.getNextArray(), vrp.getPreArray());
     double max = deployAllDrones();
     return max;
+}
+
+void VRPD::localSolutionToGlobal(){
+    if (!isGlobalSolution) {
+        isGlobalSolution = true;
+        for (int i = 1; i <= numByTruck; ++i) {
+            int sign = solution[i] >= 0 ? 1 : -1;
+            solution[i] = sign * localIndexToGlobal(abs(solution[i]));
+        }
+    }
+}
+
+void VRPD::globalSolutionToLocal(){
+    if (isGlobalSolution){
+        isGlobalSolution = false;
+        for (int i = 1; i <= numByTruck; ++i){
+            int sign = solution[i] >= 0 ? 1 : -1;
+            solution[i] = sign * globalIndexToLocal(abs(solution[i]));
+        }
+    }
+}
+
+double VRPD::hideNegative(const double x) const{
+    return x < 0 ? 0 : x;
 }

@@ -184,3 +184,45 @@ void VRP::updateCurrentObject(double object){
 bool VRP::hasDummy() const{
     return dummyIndicator;
 }
+
+void VRP::capture_best_solution()
+{
+    ///
+    /// Determines if the current solution is the best found so far.
+    ///
+
+    if( (this->currentObject < this->bestObject) &&
+        (VRPH_ABS(this->currentObject - this->bestObject) > VRPH_EPSILON) )
+    {
+        this->bestObject=this->currentObject;
+        this->export_solution_buff(this->best_sol_buff);
+        
+    }
+
+    
+//    if(this->total_route_length < this->solution_wh->worst_obj || 
+//        this->solution_wh->num_sols < this->solution_wh->max_size)
+//    {
+//        VRPSolution this_sol(this->num_nodes);
+//
+//        this_sol.obj=this->total_route_length;
+//        this_sol.in_IP=false;
+//
+//        // Export buffer
+//        this->export_canonical_solution_buff(this_sol.sol);
+//        
+//        this->solution_wh->add_sol(&this_sol, 0); 
+//        // We don't know any information to help us know where to insert
+//    }
+
+    return;
+    
+}
+
+void VRP::initHelper(){
+    vrpd->generateInitialTruckRoute();
+    import_solution_buff(vrpd->solution);
+    vrpd->importTruckRoute(getNextArray(), getPreArray());
+    currentObject = vrpd->deployAllDrones();
+    capture_best_solution();
+}

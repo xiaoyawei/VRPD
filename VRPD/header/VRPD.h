@@ -22,6 +22,7 @@ class Solver;
 
 class VRPD{
     friend class VRP;
+    friend class Solver;
 public:
     VRPD(const Solver& solver);
     VRPD();
@@ -34,6 +35,8 @@ public:
     int globalIndexToLocal(const int index) const;
     int localIndexToGlobal(const int index) const;
     double getDroneDeploymentsolution(const VRP& vrp);
+    void globalSolutionToLocal();
+    void localSolutionToGlobal();
     ~VRPD();
     
 private:
@@ -48,9 +51,11 @@ private:
     void assignInitialDrones(int method = 1);
     int* generateInitialTruckRoute();
     void importTruckRoute(const int *next, const int *prec);
-    
+    void reset();
+    double hideNegative(const double x) const;
     
     int numFleet, numDrone, depotIndex, truckCap, numCustomer, numOfRoute = 0, numByTruck, numByDrone;
+    bool isGlobalSolution = true;
     double tDrone, alpha;
     double **dist;
     double **cost;
@@ -63,6 +68,7 @@ private:
     DroneDeployment *droneDplyAtNode;
     std::vector<DroneDeployment> *droneDplyAtRoute;
     double *timeOfRoute, **waitingTime;
+    bool routeInfoCreated = false;
 };
 
 #endif /* defined(__VRPD__VRPD__) */

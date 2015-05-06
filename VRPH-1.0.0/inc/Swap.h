@@ -18,6 +18,9 @@ class Swap
 public:
     bool evaluate(class VRP *V, int i, int j, VRPMove *M);
     bool move(VRP *V, int u, int i);
+    
+private:
+    bool evaluateLock = false;
 };
 
 

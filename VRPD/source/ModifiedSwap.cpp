@@ -17,6 +17,10 @@ bool Swap::evaluate(class VRP *V, int u, int i, VRPMove *M)
     /// Current situation:    t-u-v and h-i-j 
     /// New situation:        t-i-v and h-u-k        
     ///
+    
+    if (evaluateLock) {
+        return true;
+    }
 
     if(V->routed[u]==false || V->routed[i]==false)
         return false;
@@ -195,6 +199,7 @@ bool Swap::evaluate(class VRP *V, int u, int i, VRPMove *M)
     M->route_custs[1]=V->route[i_route].num_customers;
     
     // This is the modified calculation of M.savings
+    evaluateLock = true;
     int *tmpSol = new int[V->num_original_nodes + 2];
     double oldObject = V->getCurrentObject();
     V->export_solution_buff(tmpSol);
@@ -203,6 +208,7 @@ bool Swap::evaluate(class VRP *V, int u, int i, VRPMove *M)
     M->savings = newObject - oldObject;
     V->import_solution_buff(tmpSol);
     delete [] tmpSol;
+    evaluateLock = false;
     
     return true;
     

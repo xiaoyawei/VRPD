@@ -126,7 +126,7 @@ bool TwoPointMove::search(class VRP *V, int j, int rules)
 
     if(move(V,&BestM)==true)
     {
-        V->updateCurrentObject(V->getCurrentObject() + BestM.savings);
+//        V->updateCurrentObject(V->getCurrentObject() + BestM.savings);
         if(!(rules & VRPH_TABU))
             return true;                    
     }
@@ -152,4 +152,32 @@ bool TwoPointMove::search(class VRP *V, int j, int rules)
 
 
     return false;
+}
+
+bool TwoPointMove::move(class VRP *V, VRPMove *M)
+{
+
+    ///
+    /// Performs the actual solution modification given by the move M.
+    ///
+    
+    V->updateCurrentObject(V->getCurrentObject() + M->savings);
+
+    if(M->move_type!=SWAP)
+        report_error("%s: Unknown move type\n",__FUNCTION__);
+
+    class Swap swap;
+
+    if(swap.move(V,M->move_arguments[0], M->move_arguments[1])==false)
+    {
+        // This is an error
+        report_error("%s: TPM::swap.move evaluates to false!!\n",__FUNCTION__);
+
+    }
+
+    V->capture_best_solution();
+    V->num_moves[TWO_POINT_MOVE_INDEX]++;
+
+    return true;
+
 }

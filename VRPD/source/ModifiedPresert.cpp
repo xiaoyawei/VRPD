@@ -19,6 +19,10 @@ bool Presert::evaluate(class VRP *V, int u, int i, VRPMove *M)
     /// VRPMove M.
     ///
 
+    if (evaluateLocked) {
+        return true;
+    }
+    
     int start_u,end_u, start_i, end_i;
     int t,v,h,demand_change, i_load, u_load, i_route, u_route;
     double tu, uv, tv, ui, hu, hi, u_loss, i_gain, i_change, i_length, u_length, savings;
@@ -159,6 +163,7 @@ bool Presert::evaluate(class VRP *V, int u, int i, VRPMove *M)
     }
     
     // This is the modified calculation of M.savings
+    evaluateLocked = true;
     int *tmpSol = new int[V->num_original_nodes + 2];
     double oldObject = V->getCurrentObject();
     V->export_solution_buff(tmpSol);
@@ -167,6 +172,7 @@ bool Presert::evaluate(class VRP *V, int u, int i, VRPMove *M)
     M->savings = newObject - oldObject;
     V->import_solution_buff(tmpSol);
     delete [] tmpSol;
+    evaluateLocked = false;
     return true;
 
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		903A65B91AF7379F005843F5 /* ModifiedTwoOpt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903A65B81AF7379F005843F5 /* ModifiedTwoOpt.cpp */; };
+		903A65BB1AF7CD75005843F5 /* VRPD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903A65BA1AF7CD75005843F5 /* VRPD.cpp */; };
 		903F034B1AE88C66001DFF9F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F034A1AE88C66001DFF9F /* main.cpp */; };
 		903F036F1AE88C91001DFF9F /* VRPUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03511AE88C91001DFF9F /* VRPUtils.cpp */; };
 		903F03701AE88C91001DFF9F /* VRPTSPLib.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 903F03521AE88C91001DFF9F /* VRPTSPLib.cpp */; };
@@ -67,6 +68,7 @@
 
 /* Begin PBXFileReference section */
 		903A65B81AF7379F005843F5 /* ModifiedTwoOpt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModifiedTwoOpt.cpp; sourceTree = "<group>"; };
+		903A65BA1AF7CD75005843F5 /* VRPD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VRPD.cpp; sourceTree = "<group>"; };
 		903F03471AE88C66001DFF9F /* VRPD */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = VRPD; sourceTree = BUILT_PRODUCTS_DIR; };
 		903F034A1AE88C66001DFF9F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		903F03511AE88C91001DFF9F /* VRPUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = VRPUtils.cpp; path = "../VRPH-1.0.0/src/VRPUtils.cpp"; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 		90806AFE1AF04D9A008D544A /* VRPD_Source */ = {
 			isa = PBXGroup;
 			children = (
+				903A65BA1AF7CD75005843F5 /* VRPD.cpp */,
 				90806B111AF732D6008D544A /* ModifiedSwapEnds.cpp */,
 				90806B0F1AF71302008D544A /* DummyOperation.cpp */,
 				90806B031AF6C8AB008D544A /* ModifiedPresert.cpp */,
@@ -369,6 +372,7 @@
 				90806B0C1AF6FC68008D544A /* ModifiedSwap.cpp in Sources */,
 				903F037E1AE88C91001DFF9F /* ThreePointMove.cpp in Sources */,
 				903F03771AE88C91001DFF9F /* VRPIO.cpp in Sources */,
+				903A65BB1AF7CD75005843F5 /* VRPD.cpp in Sources */,
 				903F037A1AE88C91001DFF9F /* VRPDebug.cpp in Sources */,
 				903F03761AE88C91001DFF9F /* VRPMove.cpp in Sources */,
 				90806B0E1AF708B9008D544A /* ModifiedFlip.cpp in Sources */,

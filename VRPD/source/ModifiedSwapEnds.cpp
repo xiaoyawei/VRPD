@@ -20,6 +20,9 @@ bool SwapEnds::evaluate(class VRP *V, int a, int v, VRPMove *M)
     /// VRPH_DEPOT-i-a-x-y-z-VRPH_DEPOT and VRPH_DEPOT-t-u-v-j-k-l-VRPH_DEPOT
     ///
 
+    if (evaluateLock) {
+        return true;
+    }
     
     int load_after_a, load_after_v, new_a_load, new_v_load, added_to_a, added_to_v, n, b, w;
     double new_a_len, new_v_len ;
@@ -89,6 +92,7 @@ bool SwapEnds::evaluate(class VRP *V, int a, int v, VRPMove *M)
     M->move_arguments[1]=v;
     
     // This is the modified calculation of M.savings
+    evaluateLock = true;
     V->remove_dummy();
     int *tmpSol = new int[V->num_original_nodes + 2];
     double oldObject = V->getCurrentObject();
@@ -98,7 +102,7 @@ bool SwapEnds::evaluate(class VRP *V, int a, int v, VRPMove *M)
     M->savings = newObject - oldObject;
     V->import_solution_buff(tmpSol);
     delete [] tmpSol;
-    
+    evaluateLock = false;
     return true;    
     
 }

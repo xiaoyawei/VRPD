@@ -243,6 +243,7 @@ double VRP::SA_solve(int heuristics, double start_temp, double cool_ratio,
 
     // Restore the best sol
     this->import_solution_buff(this->best_sol_buff);
+    this->currentObject = this->bestObject;
     // Now return the obj. function value
 
     if(has_service_times==false)

@@ -3068,40 +3068,7 @@ void VRP::find_neighboring_routes()
     return;
 }
 
-void VRP::capture_best_solution()
-{
-    ///
-    /// Determines if the current solution is the best found so far.
-    ///
 
-    if( (this->total_route_length < this->best_total_route_length) && 
-        (VRPH_ABS(this->total_route_length - this->best_total_route_length) > VRPH_EPSILON) )
-    {
-        this->best_total_route_length=this->total_route_length;
-        this->export_solution_buff(this->best_sol_buff);
-        
-    }
-
-    
-    if(this->total_route_length < this->solution_wh->worst_obj || 
-        this->solution_wh->num_sols < this->solution_wh->max_size)
-    {
-        VRPSolution this_sol(this->num_nodes);
-
-        this_sol.obj=this->total_route_length;
-        this_sol.in_IP=false;
-
-        // Export buffer
-        this->export_canonical_solution_buff(this_sol.sol);
-        
-        this->solution_wh->add_sol(&this_sol, 0); 
-        // We don't know any information to help us know where to insert
-    }
-
-    return;
-
-    
-}
 
 void VRP::update_solution_wh()
 {
@@ -3903,7 +3870,7 @@ bool VRP::check_fixed_edges(const char *message)
                         fprintf(stderr,"Fixed edge %d-%d not in solution!!",i,j);
                         fprintf(stderr,"%d-%d-%d\n",VRPH_MAX(this->pred_array[i],VRPH_DEPOT),i,
                             VRPH_MAX(this->next_array[i],VRPH_DEPOT));
-                        fprintf(stderr,message);
+//                        fprintf(stderr,message);
 
                         if(this->fixed[j][i])
                             fprintf(stderr,"%d-%d also fixed\n",j,i);
@@ -3922,7 +3889,7 @@ bool VRP::check_fixed_edges(const char *message)
                         fprintf(stderr,"Fixed edge %d-%d not in solution!!",i,j);
                         fprintf(stderr,"%d-%d-%d\n",VRPH_MAX(this->pred_array[j],VRPH_DEPOT),j,
                             VRPH_MAX(this->next_array[j],VRPH_DEPOT));
-                        fprintf(stderr,message);
+//                        fprintf(stderr,message);
                         if(this->fixed[j][i])
                             fprintf(stderr,"%d-%d also fixed\n",j,i);
                         else

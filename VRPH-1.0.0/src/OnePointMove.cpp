@@ -360,44 +360,4 @@ bool OnePointMove::evaluate(class VRP *V, int j, int b, int rules, VRPMove *M)
     return false;
 }
 
-bool OnePointMove::move(class VRP *V, VRPMove *M)
-{
-    ///
-    /// Makes the one point move determined by the VRPMove M. 
-    ///        
-    
-        
-    if(M->move_type==PRESERT)
-    {
-        Presert presert;
-        if(presert.move(V,M->move_arguments[0],M->move_arguments[1]))
-        {
-            V->num_moves[ONE_POINT_MOVE_INDEX]++;
-            V->capture_best_solution();
 
-            return true;
-        }
-        else
-            report_error("%s: presert move is false\n",__FUNCTION__);
-
-
-    }
-    else
-    {
-        if(M->move_type==POSTSERT)
-        {
-            Postsert postsert;
-            if(postsert.move(V,M->move_arguments[0],M->move_arguments[1]))
-            {
-                V->num_moves[ONE_POINT_MOVE_INDEX]++;
-                V->capture_best_solution();
-                return true;
-            }
-            else
-                report_error("%s: postsert move is false\n",__FUNCTION__);
-        }
-    }
-    
-    return false;
-    
-}

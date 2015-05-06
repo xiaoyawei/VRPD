@@ -119,7 +119,7 @@ bool OnePointMove::search(class VRP *V, int j, int rules)
     if(move(V,&BestM)==true)
     {
         // Update the object
-        V->updateCurrentObject(V->getCurrentObject() + BestM.savings);
+//        V->updateCurrentObject(V->getCurrentObject() + BestM.savings);
         if(!(rules & VRPH_TABU))
             return true;                    
     }
@@ -144,4 +144,47 @@ bool OnePointMove::search(class VRP *V, int j, int rules)
     report_error("%s: move error 4\n",__FUNCTION__);    
 
     return false;
+}
+
+bool OnePointMove::move(class VRP *V, VRPMove *M)
+{
+    ///
+    /// Makes the one point move determined by the VRPMove M. 
+    ///        
+    
+    V->updateCurrentObject(V->getCurrentObject() + M->savings);
+    
+    if(M->move_type==PRESERT)
+    {
+        Presert presert;
+        if(presert.move(V,M->move_arguments[0],M->move_arguments[1]))
+        {
+            V->num_moves[ONE_POINT_MOVE_INDEX]++;
+            V->capture_best_solution();
+
+            return true;
+        }
+        else
+            report_error("%s: presert move is false\n",__FUNCTION__);
+
+
+    }
+    else
+    {
+        if(M->move_type==POSTSERT)
+        {
+            Postsert postsert;
+            if(postsert.move(V,M->move_arguments[0],M->move_arguments[1]))
+            {
+                V->num_moves[ONE_POINT_MOVE_INDEX]++;
+                V->capture_best_solution();
+                return true;
+            }
+            else
+                report_error("%s: postsert move is false\n",__FUNCTION__);
+        }
+    }
+    
+    return false;
+    
 }

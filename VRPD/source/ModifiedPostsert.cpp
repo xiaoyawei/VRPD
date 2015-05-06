@@ -18,6 +18,10 @@ bool Postsert::evaluate(class VRP *V, int u, int i, VRPMove *M)
     /// is placed in the VRPMove M
     ///    
 
+    if (evaluateLocked) {
+        return true;
+    }
+    
     if(V->routed[u]==false || V->routed[i]==false)
         return false;
 
@@ -173,6 +177,7 @@ bool Postsert::evaluate(class VRP *V, int u, int i, VRPMove *M)
     }
 
     //Modify the calculation of M.savings
+    evaluateLocked = true;
     int *tmpSol = new int[V->num_original_nodes + 2];
     double oldObject = V->getCurrentObject();
     V->export_solution_buff(tmpSol);
@@ -181,7 +186,9 @@ bool Postsert::evaluate(class VRP *V, int u, int i, VRPMove *M)
     M->savings = newObject - oldObject;
     V->import_solution_buff(tmpSol);
     delete [] tmpSol;
+    evaluateLocked = false;
 
     return true;
 
 }
+

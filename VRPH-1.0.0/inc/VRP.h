@@ -38,8 +38,11 @@ class VRP
 
     friend class ClarkeWright;
     friend class Sweep;
+    
+    friend class Solver;
 
 public:
+    void initHelper();
     VRP(Solver& solver);
     VRP(int n);
     // Constructor for problems with n non-VRPH_DEPOT nodes
@@ -179,7 +182,7 @@ private:
     // Problem parameters, description, etc.
     bool dummyIndicator = false;
     VRPD *vrpd;
-    double currentObject = 1e30;
+    double currentObject = 1e30, bestObject = 1e30;
     void init(int n);
     int num_nodes;
     double total_route_length;

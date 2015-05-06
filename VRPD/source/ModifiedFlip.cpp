@@ -21,6 +21,10 @@ bool Flip::evaluate(class VRP *V, int start_point, int end_point, VRPMove *M)
     /// start_point must be before end_point in the current route orientation.  
     ///
 
+    if (evaluateLock) {
+        return true;
+    }
+    
     int post_start, pre_end, route_num;
     double old_cost, new_cost;
     double savings, route_len;
@@ -83,6 +87,7 @@ bool Flip::evaluate(class VRP *V, int start_point, int end_point, VRPMove *M)
     M->move_arguments[1]=end_point;
     
     // This is the modified calculation of M.savings
+    evaluateLock = true;
     V->remove_dummy();
     int *tmpSol = new int[V->num_original_nodes + 2];
     double oldObject = V->getCurrentObject();
@@ -92,6 +97,7 @@ bool Flip::evaluate(class VRP *V, int start_point, int end_point, VRPMove *M)
     M->savings = newObject - oldObject;
     V->import_solution_buff(tmpSol);
     delete [] tmpSol;
+    evaluateLock = false;
     
 
     return true;

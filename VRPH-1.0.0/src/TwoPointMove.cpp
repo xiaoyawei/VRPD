@@ -175,29 +175,5 @@ bool TwoPointMove::evaluate(class VRP *V, int j, int b, int rules, VRPMove *M)
 }
 
 
-bool TwoPointMove::move(class VRP *V, VRPMove *M)
-{
 
-    ///
-    /// Performs the actual solution modification given by the move M.
-    ///
-
-    if(M->move_type!=SWAP)
-        report_error("%s: Unknown move type\n",__FUNCTION__);
-
-    class Swap swap;
-
-    if(swap.move(V,M->move_arguments[0], M->move_arguments[1])==false)
-    {
-        // This is an error
-        report_error("%s: TPM::swap.move evaluates to false!!\n",__FUNCTION__);
-
-    }
-
-    V->capture_best_solution();
-    V->num_moves[TWO_POINT_MOVE_INDEX]++;
-
-    return true;
-
-}
 

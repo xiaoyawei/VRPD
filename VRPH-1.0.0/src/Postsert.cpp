@@ -13,7 +13,6 @@
 #include "VRPH.h"
 
 
-
 bool Postsert::move(VRP *V, int u, int i)
 {
 
@@ -213,6 +212,7 @@ bool Postsert::move(VRP *V, int u, int i)
 
     return true;
 }
+
 
 
 
