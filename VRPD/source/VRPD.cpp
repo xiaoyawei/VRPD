@@ -498,6 +498,8 @@ int* VRPD::generateInitialTruckRoute(){
     }
     solution[++index] = 0;
     isGlobalSolution = false;
+    delete [] initialNodes;
+    delete [] routes;
     return solution;
 }
 

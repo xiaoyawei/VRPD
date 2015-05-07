@@ -84,3 +84,11 @@ int initialNodeHelperCmp(const void *a, const void *b){
     s2 = reinterpret_cast<const InitialNodeAssignmentHelper*>(b);
     return s1->length - s2->length;
 }
+
+int droneAssignHelperCmp(const void *a, const void *b){
+    const DroneAssignmentHelper *s1, *s2;
+    s1 = reinterpret_cast<const DroneAssignmentHelper*>(a);
+    s2 = reinterpret_cast<const DroneAssignmentHelper*>(b);
+    int distCmp = s1->distance > s2->distance ? -1 : 1;
+    return s1->degree == s2->degree ? distCmp : s1->degree - s2->degree;
+}

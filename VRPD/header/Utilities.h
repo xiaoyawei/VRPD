@@ -48,4 +48,12 @@ public:
 
 int initialNodeHelperCmp(const void *a, const void *b);
 
+class DroneAssignmentHelper{
+public:
+    int degree, nodeID;
+    double distance;
+};
+
+int droneAssignHelperCmp(const void *a, const void *b);
+
 #endif /* defined(__VRPD__Coordinate__) */

@@ -51,6 +51,8 @@ bool Solver::readFile(const char *filename){
     sscanf(line, "M:%d\n", &m);
     droned = new bool[numCustomer];
     bestDroned = new bool[numCustomer];
+    bestNextArray = new int[numCustomer];
+    bestPreArray = new int[numCustomer];
     for (int i = 0; i < numCustomer; ++i) {
         droned[i] = false;
     }
@@ -186,25 +188,95 @@ bool Solver::readFile(const char *filename){
 
 void Solver::main(const char *filename){
     readFile(filename);
-    setupHelper();
+    findDroneAssignment();
+    std::cout << bestObject << std::endl;
+}
+
+void Solver::displayDebugInfo(){
+    std::cout << vrp->getCurrentObject() << " " << vrpd->getDroneDeploymentsolution(*vrp) << std::endl;
+    vrp->export_solution_buff(vrpd->solution);
+    for (int i = 0; i < vrpd->numByTruck + 1; ++i) {
+        if (vrpd->solution[i] <= 0) {
+            std::cout << std::endl;
+        }
+        std::cout << (abs(vrpd->solution[i])) << " ";
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < vrpd->numOfRoute; ++i) {
+        std::cout << vrpd->timeOfRoute[i] << " ";
+    }
+    std::cout << std::endl << std::endl;
 }
 
 double Solver::getSolution(){
+    double debug = false;
     vrpd = new VRPD(*this);
     vrp = new VRP(*this);
     vrp->initHelper();
     
-    double startingTemp = 2, coolingRatio = 0.9;
-    int numLoops = 50, itersPerLoop = 2, nListSize = 10;
-    int heuristics = ONE_POINT_MOVE + TWO_POINT_MOVE + TWO_OPT;
+    double startingTemp = 2, coolingRatio = 0.8;
+    int numLoops = 5, itersPerLoop = 2, nListSize = 10;
+    int heuristics = ONE_POINT_MOVE + TWO_POINT_MOVE;
     bool verbose = false;
     vrp->SA_solve(heuristics, startingTemp, coolingRatio, itersPerLoop, numLoops, nListSize, verbose);
+    
+    if (debug) {
+        displayDebugInfo();
+    }
     
     trackBestSolution();
     double result = vrp->getCurrentObject();
     delete vrpd;
     delete vrp;
     return result;
+}
+
+DroneAssignmentHelper* Solver::createDroneSiteInfo(){
+    DroneAssignmentHelper* droneSite = new DroneAssignmentHelper[numCustomer - 1];
+    for (int i = 0; i < numCustomer - 1; ++i) {
+        droneSite[i].nodeID = i + 1;
+        droneSite[i].distance = cost[0][i + 1];
+        int count = 0;
+        for (int j = 0; j < numCustomer; ++j) {
+            if (dist[i + 1][j] < INF) {
+                ++count;
+            }
+        }
+        droneSite[i].degree = count - 1;
+    }
+    qsort(droneSite, numCustomer - 1, sizeof(class DroneAssignmentHelper), droneAssignHelperCmp);
+    return droneSite;
+}
+
+void Solver::flipDroneSite(int index){
+    droned[index] = !droned[index];
+}
+
+void Solver::findDroneAssignment(){
+    DroneAssignmentHelper *droneSite = createDroneSiteInfo();
+    bool toContinue = true;
+    const bool debug = true;
+    int count = 0;
+    const int threshold = 10;
+    double best = getSolution();
+    while (toContinue && count < threshold) {
+        toContinue = false;
+        ++count;
+        if (debug) std::cout << "Round " << count << std::endl;
+        for (int i = 0; i < numCustomer - 1; ++i) {
+            int index = droneSite[i].nodeID;
+            if (debug) std::cout << "Check site " << i << ". Best = " << best << std::endl;
+            flipDroneSite(index);
+            double obj = getSolution();
+            if (obj < best) {
+                toContinue = true;
+                best = obj;
+            } else {
+                flipDroneSite(index);
+            }
+        }
+    }
+    delete [] droneSite;
 }
 
 void Solver::setupHelper(){
@@ -243,6 +315,9 @@ Solver::~Solver(){
     delete [] pathLength[0];
     delete [] nextNode;
     delete [] pathLength;
+    delete [] bestDroned;
+    delete [] bestNextArray;
+    delete [] bestPreArray;
 }
 
 void Solver::trackBestSolution(){
@@ -250,6 +325,11 @@ void Solver::trackBestSolution(){
         bestObject = vrp->getCurrentObject();
         for (int i = 0; i < numCustomer; ++i) {
             bestDroned[i] = droned[i];
+        }
+        int *next = vrp->getNextArray(), *pre = vrp->getPreArray();
+        for (int i = 0; i < vrpd->numByTruck; ++i) {
+            bestNextArray[i] = next[i];
+            bestPreArray[i] = pre[i];
         }
     }
 }
