@@ -23,7 +23,6 @@ void Solver::setParameters(){
     numOfItersPerLoop = 1;
     numOfListSize = 10;
     theHeuristics = ONE_POINT_MOVE + TWO_POINT_MOVE + TWO_OPT;
-    debug1 = false;
     stoptingObject = 0;
 }
 
@@ -50,6 +49,7 @@ void Solver::setParameters(const cmdline::parser &parser){
 //}
 
 Solver::Solver(){
+    debug1 = false;
     debug2 = false;
 }
 
