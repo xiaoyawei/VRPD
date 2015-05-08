@@ -22,7 +22,7 @@ class Solver{
     friend class VRP;
     
 public:
-    void main(const char* filename);
+    void main(const char* filename, const char* outfile);
     void setParameters(const cmdline::parser &parser);
     Solver();
     ~Solver();
@@ -39,8 +39,8 @@ private:
     void findDroneAssignment();
     DroneAssignmentHelper* createDroneSiteInfo();
     void flipDroneSite(int index);
-    void outputTruckRoute(int truckID);
-    void displayResult();
+    void outputTruckRoute(std::ostream &os, int truckID);
+    void displayResult(std::ostream &os);
     void setParameters();
     
     int numFleet, numDrone, truckCap, depotIndex, numCustomer, **nextNode, **pathLength, *degree;
