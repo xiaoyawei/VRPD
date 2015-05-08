@@ -12,9 +12,6 @@
 #include "VRPH.h"
 
 
-
-
-
 bool Flip::move(VRP *V, int start_point, int end_point)
 {
     ///
@@ -39,7 +36,7 @@ bool Flip::move(VRP *V, int start_point, int end_point)
         report_error("%s: flip::not in the same route\n");
 
     // evaluate the move
-    if(evaluate(V,start_point,end_point, &M)==false)
+    if(evaluateHelper(V,start_point,end_point, &M)==false)
         return false;
 
     V->update(&M);

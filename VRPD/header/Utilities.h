@@ -10,7 +10,7 @@
 #define __VRPD__Coordinate__
 
 #include <stdio.h>
-
+#include "limits"
 class Coordinate{
 public:
     Coordinate();
@@ -26,7 +26,7 @@ private:
 
 class DroneDeployment{
 public:
-    int start, end, routeID, nodeID;
+    int start, end, routeID, nodeID, droneID;
     double addedTime;
     DroneDeployment(int s, int e, int r, int n, double a);
     DroneDeployment();
@@ -39,6 +39,8 @@ public:
 private:
     const double beta = 0;
 };
+
+bool DroneDeploymentLessThan(const DroneDeployment &s1, const DroneDeployment &s2);
 
 class InitialNodeAssignmentHelper{
 public:

@@ -17,6 +17,7 @@
 #include "vector"
 #include "Solver.h"
 #include "VRPH.h"
+#include "limits"
 
 class Solver;
 
@@ -61,9 +62,10 @@ private:
     double **cost;
     Coordinate* nodes;
     bool *droned;
-    int *lengthOfRoute, **deployedDrone, *nextArray, *preArray, **truckRoutes;
+    int *lengthOfRoute, **deployedDrone, *nextArray, *preArray, **truckRoutes, **serviceRoute;
     int *localToGlobal, *globalToLocal, *loadAtRoute, **nextNode, **pathLength, *solution;
-    const double INF = 1e30;
+    int *truckServiceNum;
+    const double INF = std::numeric_limits<double>::max();
     const double beta = 0; //balance segment length and drone flying duration
     DroneDeployment *droneDplyAtNode;
     std::vector<DroneDeployment> *droneDplyAtRoute;

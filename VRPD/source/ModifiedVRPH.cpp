@@ -106,7 +106,7 @@ void VRP::create_distance_matrix(int type)
     
     for (int i = 0; i < num_nodes + 2; ++i) {
         for (int j = 0; j < num_nodes + 2; ++j) {
-            d[i][j] = d[j][i] = vrpd->dist[nodes[i].id][nodes[j].id];
+            d[i][j] = d[j][i] = vrpd->cost[nodes[i].id][nodes[j].id];
         }
     }
     
@@ -162,6 +162,7 @@ VRP::VRP(Solver& solver): vrpd(solver.vrpd){
     nodes[num_nodes + 1].demand = 0;
     nodes[num_nodes + 1].service_time = 0;
     create_neighbor_lists(num_nodes);
+    create_distance_matrix(0);
     max_route_length = vrpd->INF;
 }
 

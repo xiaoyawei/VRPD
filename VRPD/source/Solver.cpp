@@ -8,6 +8,24 @@
 
 #include "Solver.h"
 
+void Solver::setParameters(){
+    startingTemperatur = 1;
+    coolRatio = 0.1;
+    numOfLoops = 3;
+    numOfItersPerLoop = 1;
+    numOfListSize = 10;
+    theHeuristics = ONE_POINT_MOVE + TWO_POINT_MOVE + TWO_OPT;
+    debug1 = false;
+}
+
+void Solver::setVerbose(){
+    debug2 = true;
+}
+
+Solver::Solver(){
+    debug2 = false;
+}
+
 int Solver::newIndex(int index) const{
     if (index == depotIndex) {
         return 0;
@@ -29,6 +47,12 @@ bool Solver::readFile(const char *filename){
     const int buffSize = 256;
     char line[buffSize];
     std::ifstream in(filename);
+    
+    if (!in.is_open()) {
+        std::cout << "FILE NOT FOUND!" << std::endl;
+        exit(-1);
+    }
+    
     //skip the words
     for (int i = 0; i < 10; ++i) in.getline(line, buffSize);
     
@@ -137,62 +161,31 @@ bool Solver::readFile(const char *filename){
     return true;
 }
 
-//void Solver::main(const char* filename){
-//    readFile(filename);
-//    setupHelper();
-//    
-//    
-//    vrpd = new VRPD(*this);
-//    vrpd->generateInitialTruckRoute();
-//    for (int i = 0; i < vrpd->numByTruck + 1; ++i) {
-//        if (vrpd->solution[i] <= 0) {
-//            std::cout << std::endl;
-//        }
-//        std::cout << (abs(vrpd->solution[i])) << " ";
-//    }
-//    vrp = new VRP(*this);
-//    vrp->import_solution_buff(vrpd->solution);
-//    vrpd->importTruckRoute(vrp->getNextArray(), vrp->getPreArray());
-////    vrpd->createRouteInfo();
-//    double max = vrpd->deployAllDrones();
-//    vrp->updateCurrentObject(max);
-//    for (int i = 0; i < vrpd->numOfRoute; ++i) {
-//        std::cout << vrpd->timeOfRoute[i] << std::endl;
-//    }
-//    std::cout << max << std::endl;
-//    double startingTemp = 2, coolingRatio = 0.9;
-//    int numLoops = 50, itersPerLoop = 2, nListSize = 10;
-////    int heuristics = ONE_POINT_MOVE + TWO_POINT_MOVE + TWO_OPT;
-//    int heuristics = ONE_POINT_MOVE + TWO_POINT_MOVE;
-//    bool verbose = false;
-//    vrp->SA_solve(heuristics, startingTemp, coolingRatio, itersPerLoop, numLoops, nListSize, verbose);
-//    std::cout << vrp->getCurrentObject() << std::endl;
-//    std::cout << vrp->vrpd->getDroneDeploymentsolution(*vrp) << std::endl;
-//    vrp->export_solution_buff(vrpd->solution);
-//    for (int i = 0; i < vrpd->numByTruck + 1; ++i) {
-//        if (vrpd->solution[i] <= 0) {
-//            std::cout << std::endl;
-//        }
-//        std::cout << (abs(vrpd->solution[i])) << " ";
-//    }
-//    vrpd->importTruckRoute(vrp->getNextArray(), vrp->getPreArray());
-//    max = vrpd->deployAllDrones();
-//    vrp->updateCurrentObject(max);
-//    for (int i = 0; i < vrpd->numOfRoute; ++i) {
-//        std::cout << vrpd->timeOfRoute[i] << std::endl;
-//    }
-//    delete vrpd;
-//    delete vrp;
-//    std::cout << getSolution() << std::endl;
-//}
 
 void Solver::main(const char *filename){
     readFile(filename);
+    setParameters();
     findDroneAssignment();
-    std::cout << bestObject << std::endl;
+    displayResult();
 }
 
-void Solver::displayDebugInfo(){
+void Solver::displayResult() {
+    for (int i = 0; i < numCustomer; ++i) {
+        droned[i] = bestDroned[i];
+    }
+    vrpd = new VRPD(*this);
+    vrpd->importTruckRoute(bestNextArray, bestPreArray);
+    vrpd->createRouteInfo();
+    vrpd->assignInitialDrones();
+    for (int i = 0; i < vrpd->numOfRoute - 1; ++i) {
+        outputTruckRoute(i);
+        std::cout << "END ROUTE" << std::endl;
+    }
+    outputTruckRoute(vrpd->numOfRoute - 1);
+    delete vrpd;
+}
+
+void Solver::displayDebugInfo(int type){
     std::cout << vrp->getCurrentObject() << " " << vrpd->getDroneDeploymentsolution(*vrp) << std::endl;
     vrp->export_solution_buff(vrpd->solution);
     for (int i = 0; i < vrpd->numByTruck + 1; ++i) {
@@ -209,14 +202,14 @@ void Solver::displayDebugInfo(){
 }
 
 double Solver::getSolution(){
-    double debug = false;
+    const bool debug = debug1;
     vrpd = new VRPD(*this);
     vrp = new VRP(*this);
     vrp->initHelper();
     
-    double startingTemp = 2, coolingRatio = 0.8;
-    int numLoops = 5, itersPerLoop = 2, nListSize = 10;
-    int heuristics = ONE_POINT_MOVE + TWO_POINT_MOVE;
+    double startingTemp = startingTemperatur, coolingRatio = coolRatio;
+    int numLoops = numOfLoops, itersPerLoop = numOfItersPerLoop, nListSize = numOfListSize;
+    int heuristics = theHeuristics;
     bool verbose = false;
     vrp->SA_solve(heuristics, startingTemp, coolingRatio, itersPerLoop, numLoops, nListSize, verbose);
     
@@ -229,6 +222,52 @@ double Solver::getSolution(){
     delete vrpd;
     delete vrp;
     return result;
+}
+
+void Solver::outputTruckRoute(int routeID) {
+    bool *isServed = new bool [vrpd->lengthOfRoute[routeID]];
+    for (int i = 0; i < vrpd->lengthOfRoute[routeID]; ++i) {
+        isServed[i] = false;
+    }
+    for (int i = 0; i < vrpd->truckServiceNum[routeID]; ++i) {
+        isServed[vrpd->serviceRoute[routeID][i]] = true;
+    }
+    std::sort(vrpd->droneDplyAtRoute[routeID].begin(), vrpd->droneDplyAtRoute[routeID].end(), DroneDeploymentLessThan);
+    std::vector<DroneDeployment> *dronesSent = new std::vector<DroneDeployment> [vrpd->lengthOfRoute[routeID]];
+    std::vector<int> *dronesReturned = new std::vector<int> [vrpd->lengthOfRoute[routeID]];
+    std::set<int> availableDrones;
+    for (int i = 1; i <= numDrone; ++i) {
+        availableDrones.insert(i);
+    }
+    int point = 0;
+    for (std::vector<DroneDeployment>::iterator it = vrpd->droneDplyAtRoute[routeID].begin(); it != vrpd->droneDplyAtRoute[routeID].end(); ++it) {
+        for (int i = point; i < it->start; ++i) {
+            for (std::vector<int>::iterator it1 = dronesReturned[i].begin(); it1 != dronesReturned[i].end(); ++it1) {
+                availableDrones.insert(*it1);
+            }
+            ++point;
+        }
+        it->droneID = *availableDrones.begin();
+        dronesSent[it->start].push_back(*it);
+        dronesReturned[it->end].push_back(it->droneID);
+        availableDrones.erase(it->droneID);
+    }
+    for (int i = 0; i < vrpd->lengthOfRoute[routeID]; ++i) {
+        std::cout << originalIndex(vrpd->truckRoutes[routeID][i]) << ",";
+        std::cout << (isServed[i] ? "TRUE" : "FALSE") << std::endl;
+        for (std::vector<DroneDeployment>::iterator it = dronesSent[i].begin(); it != dronesSent[i].end(); ++it) {
+            std::cout << "DEPLOY(Drone" << it->droneID << "," << originalIndex(it->nodeID) << ")" << std::endl;
+        }
+        if (vrpd->waitingTime[routeID][i] > 0) {
+            std::cout << "WAIT(" << vrpd->waitingTime[routeID][i] << ")" << std::endl;
+        }
+        for (std::vector<int>::iterator it = dronesReturned[i].begin(); it != dronesReturned[i].end(); ++it) {
+            std::cout << "RETURN(Drone" << *it << ")" << std::endl;
+        }
+    }
+    delete [] dronesReturned;
+    delete [] dronesSent;
+    delete [] isServed;
 }
 
 DroneAssignmentHelper* Solver::createDroneSiteInfo(){
@@ -255,7 +294,7 @@ void Solver::flipDroneSite(int index){
 void Solver::findDroneAssignment(){
     DroneAssignmentHelper *droneSite = createDroneSiteInfo();
     bool toContinue = true;
-    const bool debug = true;
+    const bool debug = debug2;
     int count = 0;
     const int threshold = 10;
     double best = getSolution();

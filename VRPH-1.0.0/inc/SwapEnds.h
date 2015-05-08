@@ -20,6 +20,8 @@ public:
     bool move(VRP *V, int u, int i);
     
 private:
+    bool evaluateHelper(class VRP *V, int i, int j, VRPMove *M);
+    bool moveHelper(VRP *V, VRPMove *M);
     bool evaluateLock = false;
 
 };

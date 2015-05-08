@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "VRPD.h"
 #include "VRPH.h"
+#include "set"
 
 class Solver{
 
@@ -20,6 +21,8 @@ class Solver{
     
 public:
     void main(const char* filename);
+    void setVerbose();
+    Solver();
     ~Solver();
 
 private:
@@ -30,14 +33,21 @@ private:
     void createNodeInfo();
     void trackBestSolution();
     double getSolution();
-    void displayDebugInfo();
+    void displayDebugInfo(int type = 1);
     void findDroneAssignment();
     DroneAssignmentHelper* createDroneSiteInfo();
     void flipDroneSite(int index);
+    void outputTruckRoute(int truckID);
+    void displayResult();
+    void setParameters();
     
     int numFleet, numDrone, truckCap, depotIndex, numCustomer, **nextNode, **pathLength, *degree;
-    double alpha, tDrone, **dist, **cost, *radius, bestObject = 1e30;
-    const double INF = 1e30;
+    double alpha, tDrone, **dist, **cost, *radius, bestObject = std::numeric_limits<double>::max();
+    int numOfLoops, numOfItersPerLoop, numOfListSize;
+    double startingTemperatur, coolRatio;
+    bool debug1, debug2;
+    int theHeuristics;
+    const double INF = std::numeric_limits<double>::max();
     bool *droned, *bestDroned;
     int *bestNextArray, *bestPreArray;
     Coordinate *nodes;

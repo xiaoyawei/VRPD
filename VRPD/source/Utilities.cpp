@@ -75,7 +75,7 @@ DroneDeployment& DroneDeployment::operator=(const DroneDeployment& rhs){
 
 void DroneDeployment::reset(){
     start = end = routeID = nodeID = -1;
-    addedTime = 1e30;
+    addedTime = std::numeric_limits<double>::max();
 }
 
 int initialNodeHelperCmp(const void *a, const void *b){
@@ -91,4 +91,15 @@ int droneAssignHelperCmp(const void *a, const void *b){
     s2 = reinterpret_cast<const DroneAssignmentHelper*>(b);
     int distCmp = s1->distance > s2->distance ? -1 : 1;
     return s1->degree == s2->degree ? distCmp : s1->degree - s2->degree;
+}
+
+bool DroneDeploymentLessThan(const DroneDeployment &s1, const DroneDeployment &s2){
+    return s1.start == s2.start ? s1.end - s2.end : s1.start - s2.start <= 0;
+}
+
+int DroneDeploymentCmp(const void *a, const void *b){
+    const DroneDeployment *s1, *s2;
+    s1 = reinterpret_cast<const DroneDeployment*>(a);
+    s2 = reinterpret_cast<const DroneDeployment*>(b);
+    return s1->start == s2->start ? s1->end - s2->end : s1->start - s2->start;
 }

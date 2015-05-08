@@ -29,7 +29,7 @@ bool SwapEnds::move(VRP *V, int a, int v)
 
     VRPMove M;
 
-    if(evaluate(V,a,v,&M)==false)
+    if(evaluateHelper(V,a,v,&M)==false)
         return false;    // move is infeasible
 
     int current_node, a_start, a_end, v_start, v_end;

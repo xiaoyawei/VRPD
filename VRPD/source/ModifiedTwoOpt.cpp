@@ -481,7 +481,17 @@ bool TwoOpt::move(class VRP *V, VRPMove *M)
     /// moves
     ///
     
+//    double oldObject = V->getCurrentObject();
+    
+//    if (oldObject < 40) {
+//        int tmp = 0;
+//    }
+//    
     V->updateCurrentObject(V->getCurrentObject() + M->savings);
+//    
+//    if (V->getCurrentObject() < 50) {
+//        int tmp = 0;
+//    }
     
     int a,b,c,d;
 

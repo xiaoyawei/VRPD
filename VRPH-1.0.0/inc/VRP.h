@@ -308,7 +308,7 @@ private:
 
         if( M->savings < -VRPH_EPSILON )
         {
-            M->evaluated_savings=true;
+//            M->evaluated_savings=true;
             return true;
         }
         // The order needs to be changed if we eventually add additional rules
@@ -322,7 +322,7 @@ private:
         {
             if(M->savings>=-VRPH_EPSILON )
             {
-                M->evaluated_savings=true;
+//                M->evaluated_savings=true;
                 return false;
             }
         }
@@ -331,7 +331,7 @@ private:
         {
             if(M->savings<-VRPH_EPSILON)
             {
-                M->evaluated_savings=true;
+//                M->evaluated_savings=true;
                 return true;
             }
             else
@@ -341,7 +341,7 @@ private:
                 {
                     if( (total_route_length+M->savings<= (1+deviation)*record) )
                     {
-                        M->evaluated_savings=true;
+//                        M->evaluated_savings=true;
                         return true;
                     }
                     else
@@ -354,7 +354,7 @@ private:
                     if( ((total_route_length - total_service_time) + M->savings <= 
                         ((1+deviation)*(record-total_service_time))) )
                     {
-                        M->evaluated_savings=true;
+//                        M->evaluated_savings=true;
                         return true;
                     }
                     else
@@ -370,7 +370,7 @@ private:
         {
             if( exp( - ((M->savings) / this->temperature)) > lcgrand(0) )
             {
-                M->evaluated_savings=true;
+//                M->evaluated_savings=true;
                 return true;
             }
             else
