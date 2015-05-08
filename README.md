@@ -11,7 +11,7 @@ The execuable file "vrpd" is generated in ./bin
 
 **To use:**
 
-The [vrpd](chrome://aoei) takes a couple of arguments. For more details, please run
+The [vrpd]( chrome://not-a-link) takes a couple of arguments. For more details, please run
 ~~~
 ./bin/vrpd -?
 ~~~
