@@ -11,7 +11,7 @@ The execuable file "vrpd" is generated in ./bin
 
 **To use:**
 
-The [vrpd] takes a couple of arguments. For more details, please run
+The [vrpd][null-link] takes a couple of arguments. For more details, please run
 ~~~
 ./bin/vrpd -?
 ~~~
