@@ -16,7 +16,6 @@ int DefaultValue::numIter = 2;
 int DefaultValue::numListSize = 10;
 int DefaultValue::heuristic = 7;
 
-
 void Solver::setParameters(){
     startingTemperatur = 1;
     coolRatio = 0.1;
@@ -28,7 +27,7 @@ void Solver::setParameters(){
     stoptingObject = 0;
 }
 
-void Solver::setParameters(cmdline::parser &parser){
+void Solver::setParameters(const cmdline::parser &parser){
     startingTemperatur = parser.get<double>("startTemp");
     coolRatio = parser.get<double>("coolRatio");
     numOfLoops = parser.get<int>("numLoop");

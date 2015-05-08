@@ -23,7 +23,7 @@ class Solver{
     
 public:
     void main(const char* filename);
-    void setParameters(cmdline::parser &parser);
+    void setParameters(const cmdline::parser &parser);
     Solver();
     ~Solver();
 
