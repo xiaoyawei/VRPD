@@ -13,6 +13,8 @@
 #include "VRPD.h"
 #include "VRPH.h"
 #include "set"
+#include "algorithm"
+#include "cmdline.h"
 
 class Solver{
 
@@ -21,7 +23,7 @@ class Solver{
     
 public:
     void main(const char* filename);
-    void setVerbose();
+    void setParameters(cmdline::parser &parser);
     Solver();
     ~Solver();
 
@@ -44,7 +46,7 @@ private:
     int numFleet, numDrone, truckCap, depotIndex, numCustomer, **nextNode, **pathLength, *degree;
     double alpha, tDrone, **dist, **cost, *radius, bestObject = std::numeric_limits<double>::max();
     int numOfLoops, numOfItersPerLoop, numOfListSize;
-    double startingTemperatur, coolRatio;
+    double startingTemperatur, coolRatio, stoptingObject;
     bool debug1, debug2;
     int theHeuristics;
     const double INF = std::numeric_limits<double>::max();
@@ -53,6 +55,12 @@ private:
     Coordinate *nodes;
     VRPD *vrpd;
     VRP *vrp;
+};
+
+class DefaultValue{
+public:
+    static double startingTemp, coolingRatio, stopObject;
+    static int numLoop, numIter, numListSize, heuristic;
 };
 
 #endif /* defined(__VRPD__Solver__) */

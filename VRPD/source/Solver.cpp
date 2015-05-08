@@ -8,6 +8,15 @@
 
 #include "Solver.h"
 
+double DefaultValue::startingTemp = 2;
+double DefaultValue::coolingRatio = 0.7;
+double DefaultValue::stopObject = 0;
+int DefaultValue::numLoop = 5;
+int DefaultValue::numIter = 2;
+int DefaultValue::numListSize = 10;
+int DefaultValue::heuristic = 7;
+
+
 void Solver::setParameters(){
     startingTemperatur = 1;
     coolRatio = 0.1;
@@ -16,11 +25,30 @@ void Solver::setParameters(){
     numOfListSize = 10;
     theHeuristics = ONE_POINT_MOVE + TWO_POINT_MOVE + TWO_OPT;
     debug1 = false;
+    stoptingObject = 0;
 }
 
-void Solver::setVerbose(){
-    debug2 = true;
+void Solver::setParameters(cmdline::parser &parser){
+    startingTemperatur = parser.get<double>("startTemp");
+    coolRatio = parser.get<double>("coolRatio");
+    numOfLoops = parser.get<int>("numLoop");
+    numOfItersPerLoop = parser.get<int>("numIter");
+    numOfListSize = parser.get<int>("listSize");
+    int h = parser.get<int>("heuristic");
+    theHeuristics = 0;
+    theHeuristics += h & 4 ? TWO_OPT : 0;
+    theHeuristics += h & 2 ? TWO_POINT_MOVE : 0;
+    theHeuristics += h & 1 ? ONE_POINT_MOVE : 0;
+    if (parser.exist("verbose")) {
+        debug2 = true;
+    }
+    stoptingObject = parser.get<double>("stop");
+    
 }
+
+//void Solver::setVerbose(){
+//    debug2 = true;
+//}
 
 Solver::Solver(){
     debug2 = false;
@@ -164,7 +192,6 @@ bool Solver::readFile(const char *filename){
 
 void Solver::main(const char *filename){
     readFile(filename);
-    setParameters();
     findDroneAssignment();
     displayResult();
 }
@@ -304,7 +331,7 @@ void Solver::findDroneAssignment(){
         if (debug) std::cout << "Round " << count << std::endl;
         for (int i = 0; i < numCustomer - 1; ++i) {
             int index = droneSite[i].nodeID;
-            if (debug) std::cout << "Check site " << i << ". Best = " << best << std::endl;
+            if (debug) std::cout << "Check site " << i << ", Best = " << best << "." << std::endl;
             flipDroneSite(index);
             double obj = getSolution();
             if (obj < best) {
@@ -312,6 +339,10 @@ void Solver::findDroneAssignment(){
                 best = obj;
             } else {
                 flipDroneSite(index);
+            }
+            if (best <= stoptingObject) {
+                delete [] droneSite;
+                return;
             }
         }
     }

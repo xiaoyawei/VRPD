@@ -147,6 +147,7 @@
 		90806B0D1AF708B9008D544A /* ModifiedFlip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModifiedFlip.cpp; sourceTree = "<group>"; };
 		90806B0F1AF71302008D544A /* DummyOperation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DummyOperation.cpp; sourceTree = "<group>"; };
 		90806B111AF732D6008D544A /* ModifiedSwapEnds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModifiedSwapEnds.cpp; sourceTree = "<group>"; };
+		90EDF38B1AFD0B6D009D96B8 /* cmdline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cmdline.h; path = VRPD/header/cmdline.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +280,7 @@
 			children = (
 				90806AFB1AF04D09008D544A /* Solver.h */,
 				90806AF81AEDCBDB008D544A /* Utilities.h */,
+				90EDF38B1AFD0B6D009D96B8 /* cmdline.h */,
 				90806AF51AEDA140008D544A /* VRPD.h */,
 			);
 			name = VRPD_Header;

@@ -64,7 +64,19 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "&quot;/Users/xiaoya/Documents/Google Drive/Spring 2015/BMGT831/VRPD/NewInstance/instance1.txt&quot;"
+            argument = "-f"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "&quot;/Users/xiaoya/Documents/Google Drive/Spring 2015/BMGT831/VRPD/Instance/instance1.txt&quot;"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-s"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "42"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
