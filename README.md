@@ -17,3 +17,4 @@ The [vrpd][null-link] takes a couple of arguments. For more details, please run
 ~~~
 
  [**链接**][null-link]
+[null-link]: chrome://not-a-link
