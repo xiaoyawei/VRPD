@@ -16,6 +16,7 @@ int main(int argc, char * argv[]) {
     Solver solver;
     cmdline::parser parser;
     parser.add<string>("filename", 'f', "The name of the input file", true, "");
+    parser.add<string>("outfile", 'o', "The name of the output file", false, "output.txt");
     parser.add("verbose", 'v', "Display the best solution at runtime");
     parser.add<double>("stop", 's', "Set the threshold to terminate when a solution better than stop is found", false, DefaultValue::stopObject);
     parser.add<double>("startTemp", 't', "The starting temperature for the simulated annealing algorithm", false, DefaultValue::startingTemp);
