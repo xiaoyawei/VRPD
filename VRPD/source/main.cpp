@@ -30,6 +30,7 @@ int main(int argc, char * argv[]) {
     solver.setParameters(parser);
 //    string f = parser.get<string>("filename").;
     const char *filename = parser.get<string>("filename").c_str();
-    solver.main(filename);
+    const char *outfile = parser.get<string>("outfile").c_str();
+    solver.main(filename, outfile);
     return 0;
 }
