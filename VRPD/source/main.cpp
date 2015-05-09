@@ -17,7 +17,7 @@ int main(int argc, char * argv[]) {
     cmdline::parser parser;
     parser.add<string>("filename", 'f', "The name of the input file", true, "");
     parser.add<string>("outfile", 'o', "The name of the output file", false, "output.txt");
-    parser.add("verbose", 'v', "Display the best solution at runtime");
+    parser.add<int>("verboseLevel", 'v', "Display debug info at runtime: 0 - No display, 1 - Low, 2 - Medium, 3 - High", false, DefaultValue::verboseLevel, cmdline::range(0, 3));
     parser.add<double>("stop", 's', "Set the threshold to terminate when a solution better than stop is found", false, DefaultValue::stopObject);
     parser.add<double>("startTemp", 't', "The starting temperature for the simulated annealing algorithm", false, DefaultValue::startingTemp);
     parser.add<double>("coolRatio", 'c', "The cooling ratio for the simulated annealing algirhtm", false, DefaultValue::coolingRatio);
@@ -28,7 +28,6 @@ int main(int argc, char * argv[]) {
     parser.parse_check(argc, argv);
     
     solver.setParameters(parser);
-//    string f = parser.get<string>("filename").;
     const char *filename = parser.get<string>("filename").c_str();
     const char *outfile = parser.get<string>("outfile").c_str();
     solver.main(filename, outfile);

@@ -45,8 +45,6 @@ private:
     void sendDrone(int *route, int *deployedDrones, double *waitingTime, const DroneDeployment& deply);
     void withdrawDrone(int *route, int *deployedDrones, double *waitingTime, const DroneDeployment& deply);
 //    bool closerThan(const double x1, const double x2) const;
-    int newIndex(const int index) const;
-    int originalIndex(const int index) const;
     void createRouteInfo();
     double getBasicRouteTime(const int *route, const int len) const;
     void assignInitialDrones(int method = 1);

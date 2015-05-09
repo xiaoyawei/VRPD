@@ -15,6 +15,7 @@ int DefaultValue::numLoop = 5;
 int DefaultValue::numIter = 2;
 int DefaultValue::numListSize = 10;
 int DefaultValue::heuristic = 7;
+int DefaultValue::verboseLevel = 0;
 
 void Solver::setParameters(){
     startingTemperatur = 1;
@@ -37,8 +38,14 @@ void Solver::setParameters(const cmdline::parser &parser){
     theHeuristics += h & 4 ? TWO_OPT : 0;
     theHeuristics += h & 2 ? TWO_POINT_MOVE : 0;
     theHeuristics += h & 1 ? ONE_POINT_MOVE : 0;
-    if (parser.exist("verbose")) {
+    if (parser.get<int>("verboseLevel") > 0) {
+        debug1 = true;
+    }
+    if (parser.get<int>("verboseLevel") > 1) {
         debug2 = true;
+    }
+    if (parser.get<int>("verboseLevel") > 2) {
+        debug3 = true;
     }
     stoptingObject = parser.get<double>("stop");
     
@@ -51,6 +58,7 @@ void Solver::setParameters(const cmdline::parser &parser){
 Solver::Solver(){
     debug1 = false;
     debug2 = false;
+    debug3 = false;
 }
 
 int Solver::newIndex(int index) const{
@@ -221,17 +229,32 @@ void Solver::displayResult(std::ostream &os) {
 }
 
 void Solver::displayDebugInfo(int type){
-    std::cout << vrp->getCurrentObject() << " " << vrpd->getDroneDeploymentsolution(*vrp) << std::endl;
+    bool debug = debug3;
     vrp->export_solution_buff(vrpd->solution);
-    for (int i = 0; i < vrpd->numByTruck + 1; ++i) {
-        if (vrpd->solution[i] <= 0) {
+    if (debug) {
+        for (int i = 0; i < vrpd->numByTruck + 1; ++i) {
+        if (vrpd->solution[i] <= 0 && i > 0) {
             std::cout << std::endl;
         }
-        std::cout << (abs(vrpd->solution[i])) << " ";
+        if (vrpd->solution[i] == 0) {
+            continue;
+        }
+        int index = originalIndex(vrpd->localIndexToGlobal(abs(vrpd->solution[i])));
+        std::cout << index  << " ";
     }
-    std::cout << std::endl;
     for (int i = 0; i < vrpd->numOfRoute; ++i) {
         std::cout << vrpd->timeOfRoute[i] << " ";
+    }
+    std::cout << std::endl;
+    }
+    std::cout << "Best nextArray: " << std::endl;;
+    for (int i = 0; i < numCustomer; ++i) {
+        std::cout << bestNextArray[i] << " ";
+    }
+    std::cout << std::endl;
+    std::cout << "Best preArray: " << std::endl;;
+    for (int i = 0; i < numCustomer; ++i) {
+        std::cout << bestPreArray[i] << " ";
     }
     std::cout << std::endl << std::endl;
 }
@@ -338,8 +361,8 @@ void Solver::findDroneAssignment(){
         ++count;
         if (debug) std::cout << "Round " << count << std::endl;
         for (int i = 0; i < numCustomer - 1; ++i) {
+            if (debug) std::cout << "Checked site " << i << ", Best = " << best << "." << std::endl;
             int index = droneSite[i].nodeID;
-            if (debug) std::cout << "Check site " << i << ", Best = " << best << "." << std::endl;
             flipDroneSite(index);
             double obj = getSolution();
             if (obj < best) {

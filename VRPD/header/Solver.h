@@ -47,7 +47,7 @@ private:
     double alpha, tDrone, **dist, **cost, *radius, bestObject = std::numeric_limits<double>::max();
     int numOfLoops, numOfItersPerLoop, numOfListSize;
     double startingTemperatur, coolRatio, stoptingObject;
-    bool debug1, debug2;
+    bool debug1, debug2, debug3;
     int theHeuristics;
     const double INF = std::numeric_limits<double>::max();
     bool *droned, *bestDroned;
@@ -60,7 +60,7 @@ private:
 class DefaultValue{
 public:
     static double startingTemp, coolingRatio, stopObject;
-    static int numLoop, numIter, numListSize, heuristic;
+    static int numLoop, numIter, numListSize, heuristic, verboseLevel;
 };
 
 #endif /* defined(__VRPD__Solver__) */
