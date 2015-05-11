@@ -11,6 +11,10 @@
 project.xcworkspace/
 xcuserdata/
 
+# cmake
+Makefile
+*.cmake
+
 # Generated files
 *.o
 *.pyc
