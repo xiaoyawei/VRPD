@@ -39,10 +39,10 @@ void Solver::setParameters(const cmdline::parser &parser){
     theHeuristics += h & 2 ? TWO_POINT_MOVE : 0;
     theHeuristics += h & 1 ? ONE_POINT_MOVE : 0;
     if (parser.get<int>("verboseLevel") > 0) {
-        debug1 = true;
+        debug2 = true;
     }
     if (parser.get<int>("verboseLevel") > 1) {
-        debug2 = true;
+        debug1 = true;
     }
     if (parser.get<int>("verboseLevel") > 2) {
         debug3 = true;
