@@ -313,14 +313,14 @@ void Solver::outputTruckRoute(std::ostream &os, int routeID) {
     for (int i = 0; i < vrpd->lengthOfRoute[routeID]; ++i) {
         os << originalIndex(vrpd->truckRoutes[routeID][i]) << ",";
         os << (isServed[i] ? "TRUE" : "FALSE") << std::endl;
-        for (std::vector<DroneDeployment>::iterator it = dronesSent[i].begin(); it != dronesSent[i].end(); ++it) {
-            os << "DEPLOY(Drone" << it->droneID << "," << originalIndex(it->nodeID) << ")" << std::endl;
+        for (std::vector<int>::iterator it = dronesReturned[i].begin(); it != dronesReturned[i].end(); ++it) {
+            os << "RETURN(Drone" << *it << ")" << std::endl;
         }
         if (vrpd->waitingTime[routeID][i] > 0) {
             os << "WAIT(" << vrpd->waitingTime[routeID][i] << ")" << std::endl;
         }
-        for (std::vector<int>::iterator it = dronesReturned[i].begin(); it != dronesReturned[i].end(); ++it) {
-            os << "RETURN(Drone" << *it << ")" << std::endl;
+        for (std::vector<DroneDeployment>::iterator it = dronesSent[i].begin(); it != dronesSent[i].end(); ++it) {
+            os << "DEPLOY(Drone" << it->droneID << "," << originalIndex(it->nodeID) << ")" << std::endl;
         }
     }
     delete [] dronesReturned;
